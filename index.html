@@ -59,7 +59,7 @@
             font-size: 15px;
         }
 
-        /* Навигация (вкладки) */
+        /* Навигация */
         .tabs {
             display: flex;
             background-color: var(--container-bg);
@@ -126,6 +126,23 @@
             font-size: 16px;
             margin: 20px 0 10px 0;
             color: var(--text-primary);
+        }
+
+        /* Печатная кнопка */
+        .print-btn {
+            float: right;
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: -5px;
+        }
+        .print-btn:hover {
+            background-color: #059669;
         }
 
         /* Таблицы */
@@ -195,7 +212,7 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 15px;
-            max-height: 600px;
+            max-height: 650px;
             overflow-y: auto;
         }
 
@@ -248,18 +265,20 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 480px;
+            min-height: 520px;
             background-color: #0f172a;
         }
 
         .action-bar {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .action-btn {
             flex: 1;
+            min-width: 110px;
             padding: 12px;
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -272,7 +291,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .action-btn:hover {
@@ -328,25 +347,22 @@
             border-radius: 0 6px 6px 0;
         }
 
-        /* Объект нити */
+        /* Объект нити (SVG для изгиба) */
         #sample-thread {
             width: 200px;
-            height: 5px;
-            background-color: #fff;
+            height: 50px;
             position: relative;
             transition: all 0.3s ease;
-            border-radius: 3px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
             display: none;
         }
 
         #thread-bead {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             position: absolute;
-            right: -2px;
-            top: -5px;
+            right: 2px;
+            top: 16px;
             background-color: #000;
             opacity: 0;
             transform: scale(0);
@@ -367,7 +383,24 @@
             border: 1px solid var(--border);
         }
 
-        /* Анимации деформаций */
+        /* Окуляр микроскопа */
+        .micro-glare {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        .micro-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Анимации деформаций пластиков */
         .bend-elastic #bar-left {
             transform: rotate(-25deg) translate(-8px, 12px);
         }
@@ -410,10 +443,6 @@
             transform: translateY(20px) scaleY(0.3) scaleX(0.8);
         }
 
-        .thread-bend {
-            transform: translateY(30px) rotate(15deg);
-        }
-
         /* Пламя */
         #fire-element {
             position: absolute;
@@ -450,18 +479,37 @@
             100% { transform: scaleY(1.4) translateY(-8px); }
         }
 
-        /* Информационные плашки */
+        /* Падение капли реагента */
+        #drop-element {
+            position: absolute;
+            top: 10px;
+            font-size: 26px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 15;
+        }
+        .dropping {
+            animation: drop-down 0.8s ease-out;
+        }
+        @keyframes drop-down {
+            0% { transform: translateY(-40px); opacity: 0; }
+            40% { transform: translateY(40px); opacity: 1; }
+            100% { transform: translateY(90px); opacity: 0; }
+        }
+
+        /* Плашки оповещения */
         .badge {
             position: absolute;
             top: 15px;
             padding: 6px 12px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             opacity: 0;
             transform: translateY(-10px);
             transition: all 0.3s ease;
             pointer-events: none;
+            z-index: 12;
         }
 
         .badge.show {
@@ -480,7 +528,41 @@
             min-height: 80px;
         }
 
-        /* Интерактивный Тест */
+        /* Реагенты суб-панель */
+        #reagent-panel {
+            background-color: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .reagent-grid {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .reagent-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.15s ease;
+        }
+        .reagent-btn:hover {
+            background-color: #475569;
+        }
+        .reagent-btn.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Тест */
         .quiz-card {
             max-width: 650px;
             margin: 0 auto;
@@ -600,6 +682,56 @@
             margin: 0 auto 20px auto;
             border: 4px solid var(--border);
         }
+
+        /* Настройки печати */
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+                padding: 0;
+            }
+            .container {
+                max-width: 100%;
+            }
+            .tabs, header, .selector-panel, .display-panel, .quiz-card, .print-btn {
+                display: none !important;
+            }
+            .tab-content {
+                display: none !important;
+            }
+            #report {
+                display: block !important;
+                background-color: white !important;
+                color: black !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            table {
+                border: 1px solid #000 !important;
+                color: black !important;
+            }
+            th, td {
+                border-bottom: 1px solid #000 !important;
+                color: black !important;
+                background: transparent !important;
+                padding: 8px !important;
+            }
+            th {
+                border-bottom: 2px solid #000 !important;
+            }
+            h2, h3 {
+                color: black !important;
+                border-bottom: 1px solid #000 !important;
+            }
+            .scheme-box {
+                background-color: white !important;
+                border: 1px solid #000 !important;
+            }
+            .scheme-box pre {
+                color: black !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -619,6 +751,7 @@
 
     <!-- Вкладка 1: Отчет -->
     <div id="report" class="tab-content active">
+        <button class="print-btn" onclick="window.print()">Печать отчета 🖨️</button>
         <h2>📝 Результаты лабораторных исследований</h2>
         
         <h3>1. Органолептический анализ термопластичных пластмасс</h3>
@@ -847,22 +980,41 @@
             <div class="display-panel">
                 <div class="action-bar">
                     <button id="act-touch" class="action-btn active" onclick="performAction('touch')">🔎 Осмотреть</button>
-                    <button id="act-bend" class="action-btn" onclick="performAction('bend')">💪 Согнуть / Сжать</button>
-                    <button id="act-burn" class="action-btn" onclick="performAction('burn')">🔥 Поджечь в пламени</button>
+                    <button id="act-bend" class="action-btn" onclick="performAction('bend')">💪 Сжать</button>
+                    <button id="act-burn" class="action-btn" onclick="performAction('burn')">🔥 Поджечь</button>
+                    <button id="act-reagent" class="action-btn" onclick="performAction('reagent')">🧪 Реагенты</button>
+                    <button id="act-micro" class="action-btn" onclick="performAction('micro')">🔬 Микроскоп</button>
                 </div>
 
                 <div class="screen-area">
+                    <!-- Падающая капля -->
+                    <div id="drop-element">💧</div>
+
                     <!-- Плашка оповещения -->
                     <div id="simulator-badge" class="badge">ИНФО</div>
 
-                    <!-- Объект: пластиковый брусок (состоит из двух половин для эффекта раскола) -->
+                    <!-- Окуляр микроскопа со внешней плашкой названия -->
+                    <div id="microscope-wrapper" style="display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 10;">
+                        <div id="microscope-lens" style="position: relative; width: 170px; height: 170px; border-radius: 50%; border: 6px solid var(--border); box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 25px rgba(0,0,0,0.9); background-color: #020617; overflow: hidden; display: block;">
+                            <div class="micro-glare"></div>
+                            <div id="micro-svg-container" style="width:100%; height:100%;"></div>
+                        </div>
+                        <div id="microscope-label" style="background-color: rgba(15, 23, 42, 0.95); border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 11px; color: var(--accent); font-weight: 700; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); text-transform: uppercase; letter-spacing: 0.05em;">
+                            Название микроструктуры
+                        </div>
+                    </div>
+
+                    <!-- Объект: пластиковый брусок (две половины) -->
                     <div id="sample-bar">
                         <div id="bar-left" class="bar-half"></div>
                         <div id="bar-right" class="bar-half"></div>
                     </div>
 
-                    <!-- Объект: нить -->
+                    <!-- Объект: нить (кривая линия) -->
                     <div id="sample-thread">
+                        <svg id="thread-svg" viewBox="0 0 200 50" style="width:100%; height:100%;">
+                            <path id="thread-path" d="M 10 25 L 190 25" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" style="transition: all 0.3s ease;"/>
+                        </svg>
                         <div id="thread-bead"></div>
                     </div>
 
@@ -874,6 +1026,16 @@
                         <div class="fire-particle"></div>
                         <div class="fire-particle"></div>
                         <div class="fire-particle"></div>
+                    </div>
+                </div>
+
+                <!-- Суб-панель реактивов (показывается только при действии Reagents) -->
+                <div id="reagent-panel" style="display: none;">
+                    <div class="reagent-grid">
+                        <button class="reagent-btn active" onclick="applyReagent('naoh')">NaOH (10%)</button>
+                        <button class="reagent-btn" onclick="applyReagent('h2so4_conc')">Конц. H2SO4 (3:2)</button>
+                        <button class="reagent-btn" onclick="applyReagent('h2so4_dil')">Разб. H2SO4 (1:5)</button>
+                        <button class="reagent-btn" onclick="applyReagent('hno3')">Раствор HNO3 (1:3)</button>
                     </div>
                 </div>
 
@@ -936,143 +1098,202 @@
         // ТЕРМОПЛАСТЫ
         pe: {
             name: "Полиэтилен (ПЭ)", isFiber: false, color: "rgba(240, 240, 240, 0.75)", border: "dashed 1px #ccc", bendBehavior: "elastic", burnBehavior: "melt",
-            touch: "Белесый, матовый, полупрозрачный пластик. Ощущается очень жирным и воскообразным, словно свеча.",
-            bend: "Легко и послушно гнется во все стороны. При сильном сжатии пальцами не трескается, ногтем можно продавить небольшую вмятину.",
-            burn: "Быстро размягчается, плавится и капает горящими жидкими каплями. Горит ровным синеватым пламенем, пахнет парафином."
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 50 Q 60 90, 100 50 T 180 50" stroke="#3b82f6" stroke-width="3" fill="none"/><path d="M 20 90 Q 70 50, 120 110 T 180 90" stroke="#3b82f6" stroke-width="3" fill="none"/><path d="M 20 130 Q 60 150, 100 120 T 180 130" stroke="#3b82f6" stroke-width="3" fill="none"/></svg>`,
+            microLabel: "Линейные макромолекулы",
+            touch: "Белесый, матовый, полупрозрачный пластик. Ощущается жирным и воскообразным, словно свеча.",
+            bend: "Легко и послушно гнется руками. На ощупь эластичный, при давлении ногтем оставляет вмятину.",
+            burn: "Размягчается, плавится и капает горящими вязкими каплями. Горит ровным синеватым пламенем, пахнет парафином.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         pp: {
             name: "Полипропилен (ПП)", isFiber: false, color: "rgba(220, 225, 230, 0.95)", border: "solid 1px #888", bendBehavior: "tough", burnBehavior: "melt",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 40 Q 60 70, 100 40 T 180 40" stroke="#3b82f6" stroke-width="3.5" fill="none"/><path d="M 20 100 Q 80 130, 140 90 T 180 100" stroke="#3b82f6" stroke-width="3.5" fill="none"/></svg>`,
+            microLabel: "Регулярная линейная структура",
             touch: "Плотный, белый, слегка просвечивающий пластик. Поверхность абсолютно гладкая и сухая.",
-            bend: "Упругий, согнуть руками тяжело. При приложении избыточной силы резко сгибается, а пластик в месте деформации белеет.",
-            burn: "Плавится в вязкую массу, горит желтым пламенем с выделением слабого запаха парафина."
+            bend: "Упругий, согнуть руками тяжело. При избыточном сгибе резко деформируется и белеет в месте сгиба.",
+            burn: "Плавится в вязкую массу, горит желтоватым пламенем с выделением слабого запаха парафина.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         ps: {
             name: "Полистирол (ПС)", isFiber: false, color: "rgba(173, 216, 230, 0.35)", border: "solid 1px #1e3a8a", bendBehavior: "brittle", burnBehavior: "melt",
-            touch: "Полностью прозрачный, жесткий, глянцевый. При легком щелчке издает тонкий звонкий звук.",
-            bend: "Не гнется! При малейшем механическом давлении с хрустом разламывается пополам на острые хрупкие осколки.",
-            burn: "Вспыхивает мгновенно, горит очень быстро ярким пламенем. Сильно коптит, выбрасывая в воздух густые хлопья черной сажи. Запах сладковатый."
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 60 Q 60 110, 100 60 T 180 60" stroke="#3b82f6" stroke-width="4" fill="none"/><path d="M 20 120 Q 70 80, 120 140 T 180 120" stroke="#3b82f6" stroke-width="4" fill="none" stroke-dasharray="2, 2"/></svg>`,
+            microLabel: "Линейный аморфный полимер",
+            touch: "Полностью прозрачный, жесткий, глянцевый. При легком щелчке издает тонкий звонкий металлический звук.",
+            bend: "Не гнется вообще! С хрустом раскалывается пополам на острые хрупкие осколки.",
+            burn: "Вспыхивает мгновенно, горит ярко и очень быстро. Сильно коптит, выбрасывая в воздух густые хлопья черной сажи. Запах сладковатый.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         eps: {
             name: "Пенопласт (Пенополистирол)", isFiber: false, color: "#ffffff", border: "dotted 2px #94a3b8", bendBehavior: "crumbly", burnBehavior: "shrink",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><circle cx="60" cy="60" r="30" fill="none" stroke="#64748b" stroke-width="2"/><circle cx="120" cy="70" r="35" fill="none" stroke="#64748b" stroke-width="2"/><circle cx="70" cy="120" r="28" fill="none" stroke="#64748b" stroke-width="2"/><circle cx="130" cy="130" r="25" fill="none" stroke="#64748b" stroke-width="2"/></svg>`,
+            microLabel: "Газонаполненные ячейки",
             touch: "Белый, пористый, невесомый материал, состоящий из склеенных воздушных гранул.",
-            bend: "Легко сжимается и ломается руками, издавая характерный скрип и крошась на отдельные круглые шарики.",
-            burn: "Мгновенно сморщивается, плавится в крошечную черную жидкую каплю и горит с выделением копоти."
+            bend: "Легко ломается и крошится руками на отдельные гранулы-шарики, издавая характерный скрип.",
+            burn: "Мгновенно сморщивается, плавится в крошечную черную жидкую каплю и горит коптящим пламенем.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Медленно разрушается.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         pmma: {
             name: "Оргстекло (ПММА)", isFiber: false, color: "rgba(255, 255, 255, 0.15)", border: "solid 2px #0284c7", bendBehavior: "rigid", burnBehavior: "char",
-            touch: "Плотная, тяжелая, идеально прозрачная пластина. Прохладная на ощупь.",
-            bend: "Абсолютно жесткое. Руками деформировать невозможно, пластина упруго сопротивляется без малейшего прогиба.",
-            burn: "Горит ярким пламенем с характерным потрескиванием и шипением. Выделяет острый, слегка сладковатый фруктовый запах."
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 50 L 180 50 M 20 100 L 180 100 M 20 150 L 180 150" stroke="#3b82f6" stroke-width="3" stroke-dasharray="10, 5"/></svg>`,
+            microLabel: "Однородная аморфная фаза",
+            touch: "Плотная, тяжелая, идеально прозрачная гладкая пластина. Прохладная на ощупь.",
+            bend: "Абсолютно жесткое. Руками деформировать невозможно, пластина упруго сопротивляется без прогиба.",
+            burn: "Горит ярким пламенем с характерным потрескиванием и шипением. Выделяет острый, слегка сладковатый эфирный запах.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         pvc_p: {
             name: "ПВХ пластикат", isFiber: false, color: "#64748b", border: "solid 1px #475569", bendBehavior: "elastic", burnBehavior: "melt",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 60 Q 60 100, 100 60 T 180 60" stroke="#475569" stroke-width="4" fill="none"/><circle cx="100" cy="110" r="10" fill="#f59e0b" opacity="0.8"/><circle cx="60" cy="130" r="8" fill="#f59e0b" opacity="0.8"/></svg>`,
+            microLabel: "Молекулы ПВХ и пластификатор",
             touch: "Серый матовый пластик. Очень упругий, гибкий, напоминает плотную резину.",
-            bend: "Легко скручивается в кольцо и растягивается. При отпускании мгновенно распрямляется обратно.",
-            burn: "Плавится с трудом. Горит только непосредственно в огне, а при вынесении из пламени сам быстро гаснет. Пахнет резко и кисло (соляной кислотой)."
+            bend: "Легко и плавно скручивается в кольцо. При отпускании мгновенно возвращает свою форму.",
+            burn: "Плавится с трудом. Горит только непосредственно в огне, а при вынесении из пламени сам гаснет. Пахнет резко и кисло (соляной кислотой).",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         pvc_v: {
             name: "ПВХ винипласт", isFiber: false, color: "#475569", border: "solid 1px #334155", bendBehavior: "rigid", burnBehavior: "char",
-            touch: "Жесткий, темно-серый, матовый непрозрачный пластик.",
-            bend: "Жесткий материал. Не гнется руками, при попытке деформировать упруго сопротивляется, не ломаясь.",
-            burn: "Не поддерживает горение вне пламени. Чернеет, обугливается и сильно выделяет резкий удушливый запах хлороводорода."
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 50 Q 100 100, 180 50" stroke="#475569" stroke-width="4.5" fill="none"/><path d="M 20 120 Q 100 70, 180 120" stroke="#475569" stroke-width="4.5" fill="none"/></svg>`,
+            microLabel: "Жестко упакованные цепи",
+            touch: "Жесткий, темно-серый, матовый непрозрачный пластик, гладкий.",
+            bend: "Не гнется руками. При очень сильном давлении упруго сопротивляется, не ломаясь.",
+            burn: "Не поддерживает горение вне пламени. Чернеет, обугливается и сильно выделяет резкий удушливый запах хлороводорода.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         // РЕАКТОПЛАСТЫ
         phen: {
             name: "Карболит (Фенопласт)", isFiber: false, color: "#1e1b4b", border: "solid 1px #0f0b30", bendBehavior: "rigid", burnBehavior: "char",
-            touch: "Тяжелый брусок почти черного цвета со слабым блеском.",
-            bend: "Совершенно жесткая термореактивная структура. Не гнется. При трении пальцем издает запах аптечной гуаши.",
-            burn: "Не плавится. Обугливается и медленно тлеет при сильном нагреве, выделяя резкий запах фенола и карболки."
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 20 50 L 180 50 M 20 100 L 180 100 M 20 150 L 180 150" stroke="#64748b" stroke-width="2"/><path d="M 50 20 L 50 180 M 100 20 L 100 180 M 150 20 L 150 180" stroke="#64748b" stroke-width="2"/><circle cx="50" cy="50" r="5" fill="#ef4444" /><circle cx="100" cy="50" r="5" fill="#ef4444" /><circle cx="150" cy="50" r="5" fill="#ef4444" /><circle cx="50" cy="100" r="5" fill="#ef4444" /><circle cx="100" cy="100" r="5" fill="#ef4444" /><circle cx="150" cy="100" r="5" fill="#ef4444" /><circle cx="50" cy="150" r="5" fill="#ef4444" /><circle cx="100" cy="150" r="5" fill="#ef4444" /><circle cx="150" cy="150" r="5" fill="#ef4444" /></svg>`,
+            microLabel: "Трехмерная сетчатая структура",
+            touch: "Тяжелый брусок почти черного цвета со слабым блеском, холодный на ощупь.",
+            bend: "Реактопласт. Абсолютно монолитный и жесткий, не гнется вообще. При сильном трении пальцем издает запах аптечной гуаши.",
+            burn: "Не плавится. Обугливается и медленно тлеет при очень сильном нагреве, выделяя резкий запах фенола.",
+            reactions: { naoh: "Устойчиво к щелочи.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         text: {
             name: "Текстолит", isFiber: false, color: "#78350f", border: "solid 1px #451a03", bendBehavior: "rigid", burnBehavior: "char",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 30 50 Q 100 70, 170 50 M 30 110 Q 100 130, 170 110" stroke="#f59e0b" stroke-width="6" fill="none"/><path d="M 50 30 Q 70 100, 50 170 M 120 30 Q 140 100, 120 170" stroke="#3b82f6" stroke-width="5" fill="none" stroke-opacity="0.8"/></svg>`,
+            microLabel: "Армирующие нити в смоле",
             touch: "Коричневая пластина. На срезе видны слои, а на поверхности — плетение нитей ткани.",
             bend: "Исключительно прочный материал. Руками согнуть или сломать образец невозможно.",
-            burn: "Не плавится. При сильном нагревании ткань основы обугливается, издавая запах горелой хлопчатобумажной ткани и смолы."
+            burn: "Не плавится. При сильном нагревании ткань основы обугливается, издавая запах горелой хлопчатобумажной ткани и смолы.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Смола обугливается.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         stext: {
             name: "Стеклотекстолит", isFiber: false, color: "#14532d", border: "solid 1px #052e16", bendBehavior: "rigid", burnBehavior: "char",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 30 40 Q 100 60, 170 40 M 30 100 Q 100 120, 170 100" stroke="#10b981" stroke-width="6" fill="none"/><path d="M 60 30 Q 80 100, 60 170 M 130 30 Q 150 100, 130 170" stroke="#10b981" stroke-width="6" fill="none"/></svg>`,
+            microLabel: "Стекловолокно в матрице",
             touch: "Зеленоватый слоистый полупрозрачный пластик, тяжелый и жесткий.",
-            bend: "Абсолютно жесткий. Не поддается сгибу ногтем или давлению рук.",
-            burn: "Смола обугливается и медленно чернеет. Стеклянные волокна основы проступают наружу, но не плавятся."
+            bend: "Сверхпрочный, абсолютно не поддается сгибу ногтем или давлению рук.",
+            burn: "Не горит самостоятельно, смола обугливается и медленно чернеет. Стеклянные нити основы оголяются, но не плавятся.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Устойчиво.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         // ПРИРОДНЫЕ ВОЛОКНА
         cotton: {
-            name: "Хлопковое волокно", isFiber: true, color: "#ffffff", bendBehavior: "fiber", burnBehavior: "ash",
+            name: "Хлопковое волокно", isFiber: true, color: "#ffffff", bendBehavior: "limp", burnBehavior: "ash",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 30 100 Q 70 80, 100 100 T 170 100" stroke="#f1f5f9" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M 30 100 Q 70 80, 100 100 T 170 100" stroke="#cbd5e1" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+            microLabel: "Скрученная целлюлозная лента",
             touch: "Мягкая хлопчатобумажная нить белого цвета, полностью матовая.",
-            bend: "Гибкая нить, послушно сминается пальцами, не держит форму.",
-            burn: "Вспыхивает мгновенно! Горит ярким желтым пламенем, тлеет после вынесения из огня. Запах жженой бумаги. Остается невесомый серый пепел."
+            bend: "Гибкая нить, послушно складывается дугой, не возвращаясь назад.",
+            burn: "Вспыхивает мгновенно! Горит ярким желтым пламенем, тлеет после вынесения из огня. Запах жженой бумаги. Остается невесомый серый пепел.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Обугливается и чернеет.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         linen: {
-            name: "Льняное волокно", isFiber: true, color: "#d2b48c", bendBehavior: "fiber", burnBehavior: "ash",
+            name: "Льняное волокно", isFiber: true, color: "#d2b48c", bendBehavior: "limp", burnBehavior: "ash",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><line x1="50" y1="20" x2="50" y2="180" stroke="#d2b48c" stroke-width="12" /><line x1="44" y1="70" x2="56" y2="70" stroke="#78350f" stroke-width="3" /><line x1="44" y1="130" x2="56" y2="130" stroke="#78350f" stroke-width="3" /><line x1="150" y1="20" x2="150" y2="180" stroke="#d2b48c" stroke-width="12" /><line x1="144" y1="100" x2="156" y2="100" stroke="#78350f" stroke-width="3" /></svg>`,
+            microLabel: "Поперечные коленца льна",
             touch: "Слегка жестковатая нитка серо-коричневого (льняного) цвета.",
-            bend: "Гибкая, но держит форму чуть жестче, чем хлопок.",
-            burn: "Горит быстро и ровно ярким желтым пламенем. Распространяет запах жженой бумаги. Полностью сгорает в легкую серую золу."
+            bend: "Легко сминается под механическим воздействием, повисая.",
+            burn: "Горит быстро и ровно ярким желтым пламенем. Распространяет запах жженой бумаги. Полностью сгорает в легкую серую золу.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Обугливается.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         wool: {
-            name: "Шерстяное волокно", isFiber: true, color: "#e3d5ca", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#222",
+            name: "Шерстяное волокно", isFiber: true, color: "#e3d5ca", bendBehavior: "wave", burnBehavior: "bead", beadColor: "#222",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="70" y="20" width="60" height="160" fill="#e3d5ca" rx="4"/><path d="M 70 50 Q 100 60, 130 50" stroke="#a3a3a3" stroke-width="3" fill="none" /><path d="M 70 80 Q 100 90, 130 80" stroke="#a3a3a3" stroke-width="3" fill="none" /><path d="M 70 110 Q 100 120, 130 110" stroke="#a3a3a3" stroke-width="3" fill="none" /><path d="M 70 140 Q 100 150, 130 140" stroke="#a3a3a3" stroke-width="3" fill="none" /></svg>`,
+            microLabel: "Чешуйчатая кутикула шерсти",
             touch: "Плотная, упругая, ворсистая шерстяная нить.",
-            bend: "Немного пружинит, стремится сохранить изначальную волнистую форму.",
-            burn: "Горит медленно, пламя вспучивается. Вне огня сразу затухает. Распространяет резкий запах паленых волос. На конце нити образуется спекшийся черный шарик, легко растирающийся в пыль."
+            bend: "Высокоупругое волокно. При сжатии сжимается волной (зигзагом) и стремится упруго выпрямиться.",
+            burn: "Горит медленно, пламя вспучивается. Вне огня сразу затухает. Распространяет резкий запах паленых волос. На конце нити образуется спекшийся черный шарик, легко растирающийся в пыль.",
+            reactions: { naoh: "Растворяется. Белковое волокно распадается в щелочи.", h2so4_conc: "Медленно деструктирует при нагреве.", h2so4_dil: "Устойчиво.", hno3: "Слабо устойчиво." }
         },
         silk: {
-            name: "Шёлковое волокно", isFiber: true, color: "#f8f9fa", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#333",
-            touch: "Очень тонкая, нежная, идеально гладкая нить с благородным блеском.",
-            bend: "Мягко сминается под пальцами.",
-            burn: "Горит медленно с запахом паленых перьев. На конце нити спекается хрупкий черный шарик, который крошится от легкого прикосновения."
+            name: "Шёлковое волокно", isFiber: true, color: "#f8f9fa", bendBehavior: "limp", burnBehavior: "bead", beadColor: "#333",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><path d="M 60 20 L 60 180" stroke="#f8f9fa" stroke-width="10"/><path d="M 120 20 L 120 180" stroke="#f1f5f9" stroke-width="12"/></svg>`,
+            microLabel: "Шелковины фиброина",
+            touch: "Очень тонкая, нежная, идеально гладкая нить с благородным шелковистым отливом.",
+            bend: "Мягко сминается под пальцами, складываясь петлей.",
+            burn: "Сгорает медленно с запахом паленой шерсти. На конце нити спекается хрупкий черный шарик, который крошится от легкого прикосновения.",
+            reactions: { naoh: "Растворяется под влиянием щелочи.", h2so4_conc: "Медленно разрушается.", h2so4_dil: "Устойчиво.", hno3: "Окрашивается в желтый цвет." }
         },
         // ХИМИЧЕСКИЕ ВОЛОКНА
         viscose: {
-            name: "Вискозное волокно", isFiber: true, color: "#e2e8f0", bendBehavior: "fiber", burnBehavior: "ash",
+            name: "Вискозное волокно", isFiber: true, color: "#e2e8f0", bendBehavior: "limp", burnBehavior: "ash",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="70" y="20" width="60" height="160" fill="#cbd5e1"/><line x1="85" y1="20" x2="85" y2="180" stroke="#94a3b8" stroke-width="2" /><line x1="100" y1="20" x2="100" y2="180" stroke="#94a3b8" stroke-width="3" /><line x1="115" y1="20" x2="115" y2="180" stroke="#94a3b8" stroke-width="2" /></svg>`,
+            microLabel: "Продольные бороздки",
             touch: "Искусственная шелковистая белая нить с выраженным блеском, очень гладкая.",
-            bend: "Очень послушная и мягкая нить.",
-            burn: "Горит ровно и быстро с запахом горелой целлюлозы. Полностью превращается в легкий серый пепел без образования сплавов."
+            bend: "Очень послушная нить, провисает.",
+            burn: "Горит быстро и ровно с запахом горелой целлюлозы. Полностью превращается в легкий серый пепел без образования сплавов.",
+            reactions: { naoh: "Растворяется/Разрушается.", h2so4_conc: "Разрушается/Теряет прочность.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         acetate: {
-            name: "Ацетатное волокно", isFiber: true, color: "#cbd5e1", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#334155",
+            name: "Ацетатное волокно", isFiber: true, color: "#cbd5e1", bendBehavior: "limp", burnBehavior: "bead", beadColor: "#334155",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="70" y="20" width="60" height="160" fill="#cbd5e1"/><line x1="80" y1="20" x2="80" y2="180" stroke="#64748b" stroke-width="3" /><line x1="120" y1="20" x2="120" y2="180" stroke="#64748b" stroke-width="3" /></svg>`,
+            microLabel: "Широкие бороздки",
             touch: "Блестящая искусственная нить, гладкая и скользкая.",
-            bend: "Мягкая нить, легко гнется.",
-            burn: "Плавится и горит с кислым уксусным запахом. Образует темный шарик, который после остывания довольно легко крошится."
+            bend: "Мягкая нить, легко складывается без пружинистости.",
+            burn: "Размягчается и плавится, образуя темный блестящий шарик, который после остывания довольно легко крошится. Запах кисловатый (уксусный).",
+            reactions: { naoh: "Теряет прочность (омыляется).", h2so4_conc: "Медленно разрушается.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         capron: {
-            name: "Капроновое волокно", isFiber: true, color: "rgba(186, 230, 253, 0.6)", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#0f172a",
+            name: "Капроновое волокно", isFiber: true, color: "rgba(186, 230, 253, 0.6)", bendBehavior: "wave", burnBehavior: "bead", beadColor: "#0f172a",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="80" y="20" width="40" height="160" fill="#3b82f6" opacity="0.8" rx="2"/></svg>`,
+            microLabel: "Гладкий сплошной цилиндр",
             touch: "Полупрозрачная, гладкая, скользкая и очень прочная нить.",
-            bend: "Крайне упругая нить. При сжатии стремится мгновенно выпрямиться.",
-            burn: "Не загорается активно. Плавится, сжимаясь в темную вязкую каплю. Выделяет едкий запах мышиного помета. После остывания образует твердый темный королёк, который невозможно раздавить."
+            bend: "Крайне упругая нить. При попытке сжать пружинит, изгибается волной и выпрямляется обратно.",
+            burn: "Не загорается активно. Плавится, сжимаясь в темную вязкую каплю. Выделяет едкий запах мышиного помета. После остывания образует твердый темный королёк, который невозможно раздавить.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Растворяется. Полиамидная цепь разрушается под влиянием сильной кислоты.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         chlorin: {
-            name: "Хлориновое волокно", isFiber: true, color: "#94a3b8", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#1e293b",
+            name: "Хлориновое волокно", isFiber: true, color: "#94a3b8", bendBehavior: "wave", burnBehavior: "bead", beadColor: "#1e293b",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="80" y="20" width="40" height="160" fill="#94a3b8" opacity="0.8" rx="2"/></svg>`,
+            microLabel: "Сплошное однородное волокно",
             touch: "Плотное матовое волокно, жестковатое и грубоватое на ощупь.",
-            bend: "Упругое, сопротивляется сгибу.",
-            burn: "Самостоятельно не горит! В огне съеживается и спекается в черную массу с резким кислым запахом хлороводорода."
+            bend: "Упругое, жестковатое нитяное волокно.",
+            burn: "Не поддерживает горение самостоятельно! В огне съеживается и спекается в черную массу с резким кислым запахом хлороводорода.",
+            reactions: { naoh: "Устойчиво.", h2so4_conc: "Абсолютно устойчиво к действию сильных кислот.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         nitron: {
-            name: "Нитроновое волокно", isFiber: true, color: "#cbd5e1", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#111827",
+            name: "Нитроновое волокно", isFiber: true, color: "#cbd5e1", bendBehavior: "wave", burnBehavior: "bead", beadColor: "#111827",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="70" y="20" width="60" height="160" fill="#94a3b8" rx="6"/><circle cx="100" cy="50" r="1" fill="#fff"/><circle cx="90" cy="110" r="1.5" fill="#fff"/></svg>`,
+            microLabel: "Акриловый цилиндр с порами",
             touch: "Мягкое, объемное волокно, внешне очень похожее на шерстяную пряжу.",
-            bend: "Мягкое, хорошо восстанавливает форму.",
-            burn: "Горит быстро с потрескиванием и ярким пламенем, выделяя запах жженого рога. На конце нити застывает твердый черный королёк."
+            bend: "Мягкое, пружинистое, упругое волокно.",
+            burn: "Горит быстро с потрескиванием и ярким пламенем, выделяя запах жженого рога. На конце нити застывает твердый черный королёк.",
+            reactions: { naoh: "Набухает.", h2so4_conc: "Теряет прочность.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         },
         lavsan: {
-            name: "Лавсановое волокно", isFiber: true, color: "#64748b", bendBehavior: "fiber", burnBehavior: "bead", beadColor: "#020617",
-            touch: "Жесткая, туго скрученная нить, чрезвычайно прочная.",
-            bend: "Крайне жесткая нить, упруго сопротивляется сжатию.",
-            burn: "Воспламеняется с большим трудом, плавится в каплю и горит медленно, сильно коптя с образованием бурых паров. Остается твердый глянцевый темный королёк."
+            name: "Лавсановое волокно", isFiber: true, color: "#64748b", bendBehavior: "wave", burnBehavior: "bead", beadColor: "#020617",
+            microSvg: `<svg viewBox="0 0 200 200" class="micro-svg"><rect x="80" y="20" width="40" height="160" fill="#64748b" opacity="0.8" rx="2"/></svg>`,
+            microLabel: "Полиэфирный гладкий цилиндр",
+            touch: "Туго скрученная, жесткая и гладкая нить, очень прочная на разрыв.",
+            bend: "Очень упругая, жесткая нить, упруго восстанавливается после деформации.",
+            burn: "Воспламеняется с большим трудом, плавится в каплю и горит медленно, сильно коптя с образованием бурых паров. Остается твердый глянцевый темный королёк.",
+            reactions: { naoh: "Устойчиво ко всем щелочам.", h2so4_conc: "Устойчиво к агрессивным кислотам.", h2so4_dil: "Устойчиво.", hno3: "Устойчиво." }
         }
     };
 
     let selectedSample = 'pe';
     let selectedAction = 'touch';
+    let selectedReagent = 'naoh';
 
-    // Функция выбора образца
+    // Выбор образца
     function selectSample(sampleId) {
         selectedSample = sampleId;
         document.querySelectorAll('.sim-btn').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
-        
-        // Всегда сбрасываем действие на "Осмотреть" при выборе нового вещества
         performAction('touch');
     }
 
-    // Функция выбора действия
+    // Выбор действия
     function performAction(actionId) {
         selectedAction = actionId;
         document.querySelectorAll('.action-btn').forEach(btn => btn.classList.remove('active'));
@@ -1081,39 +1302,65 @@
         updateSimulator();
     }
 
+    // Выбор химического реагента
+    function applyReagent(reagentId) {
+        selectedReagent = reagentId;
+        document.querySelectorAll('.reagent-btn').forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        // Запуск анимации капли
+        const drop = document.getElementById('drop-element');
+        drop.classList.remove('dropping');
+        void drop.offsetWidth; // Триггер перерисовки
+        drop.classList.add('dropping');
+
+        setTimeout(() => {
+            updateSimulator();
+        }, 400); // Реакция происходит после падения капли
+    }
+
     // Сброс графических эффектов
     function resetSimulator() {
         const sample = database[selectedSample];
         const bar = document.getElementById('sample-bar');
         const thread = document.getElementById('sample-thread');
+        const threadPath = document.getElementById('thread-path');
         const fire = document.getElementById('fire-element');
         const ash = document.getElementById('ash-pile');
         const bead = document.getElementById('thread-bead');
         const badge = document.getElementById('simulator-badge');
+        const microWrapper = document.getElementById('microscope-wrapper');
+        const reagentPanel = document.getElementById('reagent-panel');
 
-        // Сброс стилей плашек и огня
+        // Сброс стилей
         fire.style.display = 'none';
         ash.style.opacity = '0';
         ash.style.transform = 'scale(0)';
         bead.style.opacity = '0';
         bead.style.transform = 'scale(0)';
         badge.classList.remove('show');
+        microWrapper.style.display = 'none';
+        reagentPanel.style.display = 'none';
 
-        // Сброс анимационных классов
+        // Сброс анимационных классов и деформаций
         bar.className = '';
         thread.className = '';
+        thread.style.opacity = '1';
         thread.style.width = '200px';
+        threadPath.setAttribute('d', 'M 10 25 L 190 25'); // сброс на прямую линию
 
-        // Отображение нужного объекта
+        if (selectedAction === 'reagent') {
+            reagentPanel.style.display = 'block';
+        }
+
         if (sample.isFiber) {
             bar.style.display = 'none';
             thread.style.display = 'block';
-            thread.style.backgroundColor = sample.color;
+            threadPath.setAttribute('stroke', sample.color);
         } else {
             bar.style.display = 'flex';
             thread.style.display = 'none';
             
-            // Настройка цвета половин пластика
             document.getElementById('bar-left').style.backgroundColor = sample.color;
             document.getElementById('bar-left').style.border = sample.border;
             document.getElementById('bar-right').style.backgroundColor = sample.color;
@@ -1128,24 +1375,37 @@
         const sample = database[selectedSample];
         const bar = document.getElementById('sample-bar');
         const thread = document.getElementById('sample-thread');
+        const threadPath = document.getElementById('thread-path');
         const fire = document.getElementById('fire-element');
         const ash = document.getElementById('ash-pile');
         const bead = document.getElementById('thread-bead');
-        const badge = document.getElementById('simulator-badge');
+        const microWrapper = document.getElementById('microscope-wrapper');
+        const microSvgContainer = document.getElementById('micro-svg-container');
+        const microLabel = document.getElementById('microscope-label');
         
         const title = document.getElementById('desc-title');
         const text = document.getElementById('desc-text');
 
         title.innerText = sample.name;
 
+        // ДЕЙСТВИЕ: ОСМОТРЕТЬ
         if (selectedAction === 'touch') {
             text.innerText = sample.touch;
         } 
+        // ДЕЙСТВИЕ: СЖАТЬ
         else if (selectedAction === 'bend') {
             text.innerText = sample.bend;
 
             if (sample.isFiber) {
-                thread.classList.add('thread-bend');
+                if (sample.bendBehavior === 'wave') {
+                    // Упругая волна для шерсти/капрона
+                    threadPath.setAttribute('d', 'M 10 25 Q 35 5, 60 45 T 110 5 T 160 45 T 190 25');
+                    showBadge('⚡ УПРУГАЯ ВОЛНА', 'var(--primary)');
+                } else {
+                    // Провисание для хлопка/вискозы/льна
+                    threadPath.setAttribute('d', 'M 10 25 Q 100 0, 190 25');
+                    showBadge('⤵️ ПЛАСТИЧНЫЙ СГИБ', 'var(--accent)');
+                }
             } else {
                 if (sample.bendBehavior === 'elastic') {
                     bar.classList.add('bend-elastic');
@@ -1154,7 +1414,7 @@
                     showBadge('⚡ УПРУГИЙ СГИБ', 'var(--accent)');
                 } else if (sample.bendBehavior === 'brittle') {
                     bar.classList.add('snapped');
-                    showBadge('💥 ТРЕСК!', 'var(--danger)');
+                    showBadge('💥 ТРЕСК И ИЗЛОМ!', 'var(--danger)');
                 } else if (sample.bendBehavior === 'crumbly') {
                     bar.classList.add('crumbly');
                     showBadge('💨 КРОШИТСЯ', 'var(--accent)');
@@ -1164,13 +1424,13 @@
                 }
             }
         } 
+        // ДЕЙСТВИЕ: ПОДЖЕЧЬ
         else if (selectedAction === 'burn') {
             text.innerText = sample.burn;
             fire.style.display = 'flex';
 
             if (sample.isFiber) {
-                // Анимация сгорания нити
-                thread.style.backgroundColor = '#111827';
+                threadPath.setAttribute('stroke', '#1e293b');
                 
                 if (sample.burnBehavior === 'ash') {
                     thread.style.width = '0px';
@@ -1179,21 +1439,20 @@
                         ash.style.transform = 'scale(1)';
                     }, 200);
                 } else if (sample.burnBehavior === 'bead') {
-                    thread.style.width = '100px';
+                    threadPath.setAttribute('d', 'M 10 25 L 120 25');
                     bead.style.backgroundColor = sample.beadColor;
                     bead.style.opacity = '1';
                     bead.style.transform = 'scale(1)';
                 }
             } else {
-                // Анимация плавления пластика
                 if (sample.burnBehavior === 'melt') {
                     bar.classList.add('melted');
-                    document.getElementById('bar-left').style.backgroundColor = '#111827';
-                    document.getElementById('bar-right').style.backgroundColor = '#111827';
+                    document.getElementById('bar-left').style.backgroundColor = '#0f172a';
+                    document.getElementById('bar-right').style.backgroundColor = '#0f172a';
                 } else if (sample.burnBehavior === 'shrink') {
                     bar.classList.add('crumbly');
-                    document.getElementById('bar-left').style.backgroundColor = '#111827';
-                    document.getElementById('bar-right').style.backgroundColor = '#111827';
+                    document.getElementById('bar-left').style.backgroundColor = '#0f172a';
+                    document.getElementById('bar-right').style.backgroundColor = '#0f172a';
                 } else if (sample.burnBehavior === 'char') {
                     document.getElementById('bar-left').style.backgroundColor = '#0f172a';
                     document.getElementById('bar-right').style.backgroundColor = '#0f172a';
@@ -1201,6 +1460,43 @@
                     showBadge('💨 ОБУГЛИВАНИЕ', 'var(--danger)');
                 }
             }
+        }
+        // ДЕЙСТВИЕ: ХИМИЧЕСКИЕ РЕАКТИВЫ
+        else if (selectedAction === 'reagent') {
+            const reactionText = sample.reactions ? sample.reactions[selectedReagent] : "Устойчиво.";
+            text.innerText = `Воздействие реагента. Результат: ${reactionText}`;
+
+            // Визуальные эффекты растворения
+            if (sample.isFiber) {
+                if (selectedReagent === 'naoh' && (selectedSample === 'wool' || selectedSample === 'silk')) {
+                    thread.style.opacity = '0';
+                    showBadge('🧪 РАСТВОРЕНИЕ', 'var(--danger)');
+                } else if (selectedReagent === 'h2so4_conc' && selectedSample === 'capron') {
+                    thread.style.opacity = '0';
+                    showBadge('🧪 РАСТВОРЕНИЕ', 'var(--danger)');
+                } else if (selectedReagent === 'h2so4_conc' && (selectedSample === 'cotton' || selectedSample === 'linen' || selectedSample === 'viscose')) {
+                    threadPath.setAttribute('stroke', '#451a03'); // Обугливание целлюлозы
+                    showBadge('⚠️ РАЗРУШЕНИЕ', 'var(--danger)');
+                } else {
+                    showBadge('✅ УСТОЙЧИВО', 'var(--success)');
+                }
+            } else {
+                // Пластмассы устойчивы
+                showBadge('✅ УСТОЙЧИВО', 'var(--success)');
+            }
+        }
+        // ДЕЙСТВИЕ: МИКРОСКОП
+        else if (selectedAction === 'micro') {
+            // Скрываем основные объекты стенда
+            bar.style.display = 'none';
+            thread.style.display = 'none';
+            
+            // Показываем окуляр микроскопа и рендерим в него нужную SVG-структуру
+            microWrapper.style.display = 'flex';
+            microSvgContainer.innerHTML = sample.microSvg;
+            microLabel.innerText = sample.microLabel;
+
+            text.innerText = `Микроскопическое строение образца. Прослеживается внутреннее строение на надмолекулярном уровне: ${sample.microLabel}.`;
         }
     }
 
@@ -1245,7 +1541,7 @@
             correct: 1
         },
         {
-            q: "Какое синтетическое волокно абсолютно устойчиво ко всем разбавленным и концентрированным кислотам и щелочам?",
+            q: "Какое синтетическое волокно абсолютно устойчиво как к концентрированным, так и разбавленным кислотам и щелочам?",
             options: ["А) Лавсановое", "Б) Вискозное", "В) Шерстяное"],
             correct: 0
         },
@@ -1284,7 +1580,6 @@
         
         // Обновление прогресс-бара
         const percent = ((currentQuestionIndex) / 10) * 100;
-        document.getElementById('quiz-progress').style.style = 'width'; // reset
         document.getElementById('quiz-progress').style.width = `${percent}%`;
 
         document.getElementById('quiz-question').innerText = qData.q;
@@ -1307,7 +1602,6 @@
         const qData = quizQuestions[currentQuestionIndex];
         const buttons = document.querySelectorAll('.quiz-opt-btn');
 
-        // Отключаем нажатие на все кнопки
         buttons.forEach(btn => btn.disabled = true);
 
         if (selectedIndex === qData.correct) {
@@ -1315,7 +1609,7 @@
             score++;
         } else {
             buttons[selectedIndex].classList.add('wrong');
-            buttons[qData.correct].classList.add('correct'); // показываем правильный
+            buttons[qData.correct].classList.add('correct'); 
         }
 
         document.getElementById('quiz-next').disabled = false;
@@ -1374,7 +1668,7 @@
         startQuiz();
     }
 
-    // Запуск теста при первой загрузке вкладки
+    // Запуск теста при первой загрузке
     startQuiz();
     updateSimulator();
 </script>
